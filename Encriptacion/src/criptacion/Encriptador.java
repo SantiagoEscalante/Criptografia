@@ -1,8 +1,8 @@
 package criptacion;
 
 public class Encriptador {
-	char[] diccionario = new char[] {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A', 'B', 'C', 'D', 'E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9'};
-	
+	//char[] diccionario = new char[] {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A', 'B', 'C', 'D', 'E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9'};
+	char[] diccionario = new char[] {'A', 'B', 'C', 'D', 'E','F','G','H','I','J','K','L','M','N','Ñ','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','ñ','o','p','q','r','s','t','u','v','w','x','y','z','á','é','í','ó','ú',' ',',','.'};
 	public Encriptador() {
 		
 	}
@@ -13,6 +13,7 @@ public class Encriptador {
 			i++;
 		}
 		if(i==this.diccionario.length) {
+			System.out.println("hola");
 			return -1;
 		}
 		else
@@ -28,7 +29,7 @@ public class Encriptador {
 			if(posicion == -1)
 				encriptado+=texto.charAt(i);
 			else
-				if(posicion+salto>this.diccionario.length) {
+				if(posicion+salto>=this.diccionario.length) {
 					encriptado+=this.diccionario[posicion+salto-this.diccionario.length];
 				}
 				else
@@ -246,10 +247,12 @@ public class Encriptador {
 	public String trasposicion(String texto, int columnas , String rotacion) {
 		int filas;
 		String encriptado="";
+		System.out.println(texto.length());
 		if(texto.length()%columnas==0)
 			filas=texto.length()/columnas;
 		else
 			filas=((int)texto.length()/columnas)+1;
+		System.out.println(filas);
 		char [][] matriz= new char [filas][columnas];
 		matriz= generaMatrizFrase(texto, filas, columnas);
 		matriz= this.rotacion(matriz,filas,columnas,rotacion);
@@ -263,8 +266,13 @@ public class Encriptador {
 	
 	private char [][] rotacion(char [][] matriz , int filas , int columnas , String rotacion){
 		char [][] matRot= new char [filas][columnas];
+		boolean filacero=rotacion.indexOf('0')!=-1;
+		int col;
 		for(int i=0 ; i<rotacion.length() ; i++) {
-			int col=Integer.parseInt(String.valueOf(rotacion.charAt(i)))-1;
+			if(filacero)
+				 col=Integer.parseInt(String.valueOf(rotacion.charAt(i)));
+			else
+				 col=Integer.parseInt(String.valueOf(rotacion.charAt(i)))-1;
 			for(int j=0 ; j<filas ; j++) {
 				matRot[j][i]=matriz[j][col];
 			}
